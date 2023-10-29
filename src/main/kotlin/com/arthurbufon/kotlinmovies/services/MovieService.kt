@@ -3,15 +3,14 @@ package com.arthurbufon.kotlinmovies.services
 import com.arthurbufon.kotlinmovies.models.Movie
 import com.arthurbufon.kotlinmovies.repositories.MovieRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import java.util.*
+import org.springframework.data.domain.Pageable
 
 @Service
 class MovieService(@Autowired private val repository: MovieRepository) {
-    fun findAll(): List<Movie> {
-        return repository.findAll();
+    fun findAll(paginacao: Pageable): Page<Movie> {
+        return repository.findAll(paginacao);
     }
 
     fun create(movie: Movie): Movie {
@@ -34,7 +33,7 @@ class MovieService(@Autowired private val repository: MovieRepository) {
     }
 
     fun delete(id: Long) {
-        var movie = findById(id);
+        val movie = findById(id);
         return repository.delete(movie!!);
     }
 }
